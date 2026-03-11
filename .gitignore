@@ -5,6 +5,7 @@ env/
 .ktaiagent/
 kt_env/
 *.venv/
+./env
 
 # --- Conda ---
 .conda/
