@@ -40,8 +40,8 @@ htmlcov/
 # --- Jupyter ---
 .ipynb_checkpoints/
 
-# --- 환경 변수(비밀키 등) ---
-env
+# --- 환경 변수(비밀키 등) - 필요시 주석 해제 ---
+# env
 # .env
 # .env.local
 
