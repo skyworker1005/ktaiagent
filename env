@@ -1,0 +1,38 @@
+# --- Azure OpenAI ---
+END_POINT=https://kt-new-foundry-resource.openai.azure.com
+AZURE_OPENAI_API_KEY=your-azure-openai-api-key-here
+
+# --- 모델 ---
+MODEL_NAME=gpt-5-nano
+MODEL_API_VERSION=2025-01-01-preview
+# MODEL_NAME=gpt-5-mini
+# MODEL_API_VERSION=2025-04-01-preview
+# HIGH_MODEL_NAME=o4-mini
+# HIGH_MODEL_API_VERSION=2025-01-01-preview
+
+# --- Embedding ---
+EMB_MODEL_NAME=text-embedding-3-small
+EMB_MODEL_API_VERSION=2023-05-15
+EMB_END_POINT=https://kt-new-foundry-resource.openai.azure.com
+
+# --- Azure AI Foundry (services.ai.azure.com) ---
+FOUNDRY_ENDPOINT=https://kt-new-foundry-resource.services.ai.azure.com
+
+# --- LangChain / LangSmith ---
+LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+LANGSMITH_API_KEY=your-langsmith-api-key-here
+TAVILY_API_KEY=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
+
+# 본인에게 할당된 번호(0~30)로 변경하세요
+MY_ID=2
+
+# --- Azure AI Search ---
+AZURE_SEARCH_ENDPOINT=https://kt-ai-search-260226.search.windows.net
+AZURE_SEARCH_KEY=
+INDEX_NAME=
+
+# --- Cosmos DB ---
+COSMOS_CONNECTION_STRING=
+
+# COSMOSDB_ENDPOINT=https://kt-agent.documents.azure.com:443/
+# COSMOSDB_KEY=your-cosmosdb-key-here
