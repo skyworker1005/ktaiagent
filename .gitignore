@@ -6,6 +6,7 @@ env/
 kt_env/
 *.venv/
 ./env
+env
 
 # --- Conda ---
 .conda/
