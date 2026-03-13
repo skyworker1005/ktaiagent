@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import tempfile
 import time
 from pathlib import Path
 from typing import Any, List
@@ -88,20 +89,40 @@ def save_transcript(
     transcript: List[dict], prefix: str = "a2a-sim", return_path: bool = False
 ) -> str | None:
     """transcript([{"who": "customer"|"support", "text": "..."}, ...])를 타임스탬프 붙은 jsonl/md로 저장합니다.
-    return_path=True이면 jsonl 파일 경로(문자열)를 반환합니다."""
+    return_path=True이면 jsonl 파일 경로(문자열)를 반환합니다.
+    기본은 utils.py와 같은 디렉터리, 쓰기 실패 시 임시 디렉터리에 저장합니다."""
     ts = time.strftime("%Y%m%d-%H%M%S")
-    out_dir = Path(".")
-    jsonl_path = out_dir / f"{prefix}-{ts}.jsonl"
-    md_path = out_dir / f"{prefix}-{ts}.md"
-    with open(jsonl_path, "w", encoding="utf-8") as f:
-        for row in transcript:
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
-    with open(md_path, "w", encoding="utf-8") as f:
-        for row in transcript:
-            who = row.get("who", "")
-            text = (row.get("text") or "").strip()
-            f.write(f"**{who}**\n\n{text}\n\n")
-    print(f"[LOG] saved -> {jsonl_path.name} / {md_path.name}")
+    jsonl_name = f"{prefix}-{ts}.jsonl"
+    md_name = f"{prefix}-{ts}.md"
+
+    def write_files(out_dir: Path) -> None:
+        jsonl_path = out_dir / jsonl_name
+        md_path = out_dir / md_name
+        with open(jsonl_path, "w", encoding="utf-8") as f:
+            for row in transcript:
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        with open(md_path, "w", encoding="utf-8") as f:
+            for row in transcript:
+                who = row.get("who", "")
+                text = (row.get("text") or "").strip()
+                f.write(f"**{who}**\n\n{text}\n\n")
+        print(f"[LOG] saved -> {jsonl_path} / {md_path}")
+
+    out_dir = Path(__file__).resolve().parent
+    try:
+        write_files(out_dir)
+        final_path = out_dir / jsonl_name
+    except OSError as e:
+        # PermissionError(13), ReadOnlyFileSystem 등 모든 쓰기 오류에 대비
+        fallback_dir = Path(tempfile.gettempdir()) / "a2a-sim"
+        fallback_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            write_files(fallback_dir)
+            final_path = fallback_dir / jsonl_name
+            print(f"[LOG] 쓰기 실패({e}) → 임시 폴더에 저장: {fallback_dir}")
+        except OSError:
+            raise
+
     if return_path:
-        return str(jsonl_path.resolve())
+        return str(final_path.resolve())
     return None
