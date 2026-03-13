@@ -1,0 +1,19 @@
+# API 서버 및 환경 설정
+fastapi
+uvicorn
+pydantic
+python-dotenv
+
+# 에이전트 핵심 (LangChain & LangGraph)
+langchain
+langchain-openai
+langgraph
+# [핵심] Cosmos DB 영구 메모리용 최신 패키지
+langgraph-checkpoint-cosmosdb
+azure-cosmos
+
+# 검색 및 PDF 처리 (Advanced RAG)
+azure-search-documents
+azure-identity
+pymupdf
+tqdm
